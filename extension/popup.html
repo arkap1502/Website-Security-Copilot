@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Website Security Copilot</title>
+<style>
+  body { font-family: Segoe UI, Arial, sans-serif; width: 320px; margin: 0; padding: 14px; background: #0f172a; color: #e2e8f0; }
+  .row { display: flex; align-items: center; justify-content: space-between; }
+  h2 { font-size: 16px; margin: 0; }
+  .toggle { position: relative; width: 58px; height: 28px; background: #334155; border-radius: 20px; cursor: pointer; border: 1px solid #475569; }
+  .toggle.on { background: #16a34a; }
+  .knob { position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: #fff; border-radius: 50%; transition: left .15s; }
+  .toggle.on .knob { left: 32px; }
+  .status { font-size: 12px; margin-top: 4px; color: #94a3b8; }
+  .card { margin-top: 12px; background: #1e293b; border-radius: 10px; padding: 10px; border: 1px solid #334155; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+  .safe { background: #16a34a; } .suspicious { background: #f59e0b; color: #111; } .harmful { background: #dc2626; } .off { background: #6b7280; }
+  .url { font-size: 11px; word-break: break-all; color: #93c5fd; margin: 6px 0; }
+  .desc { font-size: 13px; line-height: 1.4; }
+  .reasons { font-size: 12px; color: #fca5a5; margin: 6px 0 0 16px; padding: 0; }
+  .btn { width: 100%; margin-top: 10px; padding: 8px; border: 0; border-radius: 8px; cursor: pointer; font-weight: 700; }
+  .recheck { background: #2563eb; color: #fff; }
+  .hint { font-size: 11px; color: #94a3b8; margin-top: 8px; line-height: 1.4; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <h2>🛡️ Security Copilot</h2>
+    <div id="toggle" class="toggle on"><div class="knob"></div></div>
+  </div>
+  <div id="onoff" class="status">● ON — watching all websites</div>
+
+  <div class="card">
+    <span id="badge" class="badge safe">SAFE ✅</span>
+    <div id="url" class="url">…</div>
+    <div id="desc" class="desc">Checking current site…</div>
+    <ul id="reasons" class="reasons"></ul>
+    <button id="recheck" class="btn recheck">Re-check this site</button>
+  </div>
+
+  <div class="hint">
+    ON = auto-watch every site + auto-block suspicious.<br>
+    Blocked? You <b>must turn OFF</b> Copilot to force-open (not recommended). Turn it back ON after.
+  </div>
+
+<script src="popup.js"></script>
+</body>
+</html>

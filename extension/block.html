@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blocked by Website Security Copilot</title>
+<style>
+  body { font-family: Segoe UI, Arial, sans-serif; background: #7f1d1d; color: #fff; margin: 0; display: flex; min-height: 100vh; align-items: center; justify-content: center; }
+  .box { background: #111827; border-radius: 14px; padding: 28px; max-width: 520px; width: 90%; border: 2px solid #ef4444; }
+  h1 { margin: 0 0 8px; font-size: 22px; }
+  .url { word-break: break-all; color: #93c5fd; font-size: 13px; margin: 8px 0; }
+  .reason { background: #1f2937; padding: 10px; border-radius: 8px; font-size: 13px; line-height: 1.5; }
+  .btns { display: flex; gap: 10px; margin-top: 16px; }
+  button, a.btn { flex: 1; padding: 10px; border-radius: 8px; font-weight: 700; text-align: center; text-decoration: none; cursor: pointer; border: 0; }
+  .back { background: #16a34a; color: #fff; }
+  .go { background: #374151; color: #9ca3af; }
+  .go.allowed { background: #f59e0b; color: #111; }
+  .note { font-size: 12px; color: #fca5a5; margin-top: 12px; line-height: 1.5; }
+</style>
+</head>
+<body>
+  <div class="box">
+    <h1>⛔ Blocked by Security Copilot</h1>
+    <div>This website was automatically blocked because it looks <b id="verdict">Harmful</b>.</div>
+    <div id="url" class="url"></div>
+    <div id="reason" class="reason"></div>
+    <div class="btns">
+      <button class="back" id="back">← Go back to safety</button>
+      <a class="btn go" id="proceed" href="#">Force-open (OFF only)</a>
+    </div>
+    <div id="note" class="note"></div>
+  </div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const origUrl = q.get('u') || '';
+  const verdict = (q.get('v') || 'harmful').toUpperCase();
+  const score = q.get('s') || '?';
+  const reasons = (q.get('r') || 'Suspicious patterns detected.').split(' | ');
+
+  document.getElementById('verdict').textContent = verdict;
+  document.getElementById('url').textContent = origUrl + `  (safety score: ${score}/100)`;
+  document.getElementById('reason').innerHTML =
+    '<b>AI description:</b> This site shows signs of phishing/malware. Turn OFF Copilot to force-open at your own risk.<br><br><b>Reasons:</b><br>• ' + reasons.join('<br>• ');
+
+  document.getElementById('back').onclick = () => { history.length > 1 ? history.back() : location.href = 'https://www.google.com'; };
+
+  // Force-open rule: proceed link only works when Copilot is OFF
+  async function refresh() {
+    const { copilotEnabled } = await chrome.storage.local.get({ copilotEnabled: true });
+    const btn = document.getElementById('proceed');
+    const note = document.getElementById('note');
+    if (copilotEnabled) {
+      btn.classList.remove('allowed');
+      btn.href = '#';
+      btn.onclick = (e) => { e.preventDefault(); alert('Copilot is ON — blocked sites cannot be opened.\n\nTo force-open:\n1. Click the Copilot extension icon\n2. Turn the toggle OFF\n3. Then come back and force-open.\n\nNot recommended.'); };
+      note.textContent = 'Copilot is ON: you cannot click-through. You MUST turn OFF the Copilot from the extension popup to force-open this site. Turn it back ON right after.';
+    } else {
+      btn.classList.add('allowed');
+      btn.href = origUrl;
+      note.textContent = 'Copilot is OFF: you can force-open at your own risk. No protection is active. Turn Copilot back ON after visiting.';
+    }
+  }
+  chrome.storage.onChanged.addListener(refresh);
+  refresh();
+</script>
+</body>
+</html>

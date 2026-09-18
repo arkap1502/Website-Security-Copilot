@@ -1,0 +1,38 @@
+﻿
+> website-security-copilot-web@0.1.0 build
+> next build
+
+  Γû▓ Next.js 14.2.5
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+It looks like you're trying to use TypeScript but do not have the required package(s) installed.
+Installing dependencies
+
+If you are not trying to use TypeScript, please remove the tsconfig.json file from your package root (and any TypeScript files in your pages directory).
+
+
+Installing devDependencies (npm):
+- typescript
+
+
+up to date, audited 28 packages in 3s
+
+3 packages are looking for funding
+  run `npm fund` for details
+
+2 vulnerabilities (1 high, 1 critical)
+
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+node.exe : The "id" argument must be of type string. Received undefined
+At line:1 char:1
++ & "C:\Users\Arkap\AppData\Local\pi-node\current/node.exe" "C:\Users\A ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (The "id" argume...eived undefined:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
